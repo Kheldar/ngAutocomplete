@@ -40,31 +40,26 @@ angular.module( "ngAutocomplete", [])
       link: function(scope, element, attrs, controller) {
 
         //options for autocomplete
-        var opts
-        var watchEnter = false
+        var opts;
+        var watchEnter = false;
         //convert options provided to opts
         var initOpts = function() {
 
-          opts = {}
+          opts = {};
           if (scope.options) {
-
-            if (scope.options.watchEnter !== true) {
-              watchEnter = false
-            } else {
-              watchEnter = true
-            }
+            watchEnter = scope.options.watchEnter === true;
 
             if (scope.options.types) {
-              opts.types = []
-              opts.types.push(scope.options.types)
-              scope.gPlace.setTypes(opts.types)
+              opts.types = [];
+              opts.types.push(scope.options.types);
+              scope.gPlace.setTypes(opts.types);
             } else {
               scope.gPlace.setTypes([])
             }
 
             if (scope.options.bounds) {
-              opts.bounds = scope.options.bounds
-              scope.gPlace.setBounds(opts.bounds)
+              opts.bounds = scope.options.bounds;
+              scope.gPlace.setBounds(opts.bounds);
             } else {
               scope.gPlace.setBounds(null)
             }
@@ -72,13 +67,13 @@ angular.module( "ngAutocomplete", [])
             if (scope.options.country) {
               opts.componentRestrictions = {
                 country: scope.options.country
-              }
+              };
               scope.gPlace.setComponentRestrictions(opts.componentRestrictions)
             } else {
               scope.gPlace.setComponentRestrictions(null)
             }
           }
-        }
+        };
 
         if (scope.gPlace == undefined) {
           scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
@@ -101,7 +96,7 @@ angular.module( "ngAutocomplete", [])
               }
             }
           }
-        })
+        });
 
         //function to get retrieve the autocompletes first result using the AutocompleteService 
         var getPlace = function(result) {
@@ -146,7 +141,7 @@ angular.module( "ngAutocomplete", [])
                 }
               });
           }
-        }
+        };
 
         controller.$render = function () {
           var location = controller.$viewValue;
