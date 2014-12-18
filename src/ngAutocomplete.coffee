@@ -34,7 +34,7 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
     details: "=?"
 
   link: (scope, element, attrs, controller) ->
-    
+
     #options for autocomplete
     watchEnter = false
     scope.gPlace = new google.maps.places.Autocomplete(element[0], {})
@@ -53,7 +53,7 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
             element[0].blur()
       return
 
-    
+
     #function to get retrieve the autocompletes first result using the AutocompleteService 
     getPlace = (result) ->
       autocompleteService = new google.maps.places.AutocompleteService()
@@ -62,33 +62,33 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
           input: result.name
           offset: result.name.length
         , listentoresult = (list, status) ->
-          if not list? or list.length is 0
-            scope.$apply ->
-              scope.details = null
-              return
+            if not list? or list.length is 0
+              scope.$apply ->
+                scope.details = null
+                return
 
-          else
-            placesService = new google.maps.places.PlacesService(element[0])
-            placesService.getDetails
-              reference: list[0].reference
-            , detailsresult = (detailsResult, placesServiceStatus) ->
-              if placesServiceStatus is google.maps.GeocoderStatus.OK
-                scope.$apply ->
-                  controller.$setViewValue detailsResult.formatted_address
-                  element.val detailsResult.formatted_address
-                  scope.details = detailsResult
-                  
-                  #on focusout the value reverts, need to set it again.
-                  watchFocusOut = element.on("blur", (event) ->
-                    element.val detailsResult.formatted_address
-                    element.unbind "blur"
-                    return
-                  )
+            else
+              placesService = new google.maps.places.PlacesService(element[0])
+              placesService.getDetails
+                reference: list[0].reference
+              , detailsresult = (detailsResult, placesServiceStatus) ->
+                  if placesServiceStatus is google.maps.GeocoderStatus.OK
+                    scope.$apply ->
+                      controller.$setViewValue detailsResult.formatted_address
+                      element.val detailsResult.formatted_address
+                      scope.details = detailsResult
+
+                      #on focusout the value reverts, need to set it again.
+                      watchFocusOut = element.on("blur", (event) ->
+                        element.val detailsResult.formatted_address
+                        element.unbind "blur"
+                        return
+                      )
+                      return
+
                   return
 
-              return
-
-          return
+            return
 
       return
 
@@ -97,7 +97,7 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
       element.val location
       return
 
-    
+
     #watch options provided to directive
     scope.watchOptions = ->
       scope.options
