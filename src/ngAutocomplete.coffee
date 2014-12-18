@@ -18,6 +18,7 @@ Usage:
 + bounds: bounds,     Google maps LatLngBounds Object, biases results to bounds, but may return results outside these bounds
 + country: country    String, ISO 3166-1 Alpha-2 compatible country code. examples; 'ca', 'us', 'gb'
 + watchEnter:         Boolean, true; on Enter select top autocomplete result. false(default); enter ends autocomplete
++ preventSubmit:      Boolean, true prevent default behavior on enter keydown event
 
 example:
 
@@ -37,6 +38,7 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
 
     #options for autocomplete
     watchEnter = false
+    preventSubmit = true
     scope.gPlace = new google.maps.places.Autocomplete(element[0], {})
     google.maps.event.addListener scope.gPlace, "place_changed", ->
       result = scope.gPlace.getPlace()
@@ -90,7 +92,8 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
 
     scope.$watch scope.watchOptions, (->
       if scope.options
-        watchEnter = scope.options.watchEnter
+        watchEnter = !!scope.options.watchEnter
+        preventSubmit = !!scope.options.preventSubmit
         if scope.options.types
           scope.gPlace.setTypes [scope.options.types]
         else
@@ -103,5 +106,13 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
           scope.gPlace.setComponentRestrictions country: scope.options.country
         else
           scope.gPlace.setComponentRestrictions null
+
+      console.log preventSubmit
+      if preventSubmit
+        element.on 'keydown', (event) ->
+          if event.which is 13
+            pacContainerElements = document.getElementsByClassName('pac-container')
+            for el in pacContainerElements
+              event.preventDefault() unless el.style.display is "none"
     ), true
 
