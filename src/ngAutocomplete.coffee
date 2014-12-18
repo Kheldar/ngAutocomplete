@@ -46,6 +46,7 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
         if result.address_components isnt `undefined`
           scope.$apply ->
             scope.details = result
+            scope.$emit('addressEntrySelected', scope.details);
             controller.$setViewValue element.val()
 
         else

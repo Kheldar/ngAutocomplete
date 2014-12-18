@@ -49,6 +49,7 @@
             if (result.address_components !== undefined) {
               return scope.$apply(function() {
                 scope.details = result;
+                scope.$emit('addressEntrySelected', scope.details);
                 return controller.$setViewValue(element.val());
               });
             } else {
