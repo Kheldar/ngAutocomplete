@@ -45,14 +45,11 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
           scope.$apply ->
             scope.details = result
             controller.$setViewValue element.val()
-            return
 
         else
           if watchEnter
             getPlace result
             element[0].blur()
-      return
-
 
     #function to get retrieve the autocompletes first result using the AutocompleteService 
     getPlace = (result) ->
@@ -65,7 +62,6 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
             if not list? or list.length is 0
               scope.$apply ->
                 scope.details = null
-                return
 
             else
               placesService = new google.maps.places.PlacesService(element[0])
@@ -82,21 +78,11 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
                       watchFocusOut = element.on("blur", (event) ->
                         element.val detailsResult.formatted_address
                         element.unbind "blur"
-                        return
                       )
-                      return
-
-                  return
-
-            return
-
-      return
 
     controller.$render = ->
       location = controller.$viewValue
       element.val location
-      return
-
 
     #watch options provided to directive
     scope.watchOptions = ->
@@ -117,7 +103,5 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
           scope.gPlace.setComponentRestrictions country: scope.options.country
         else
           scope.gPlace.setComponentRestrictions null
-      return
     ), true
-    return
 

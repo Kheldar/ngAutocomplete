@@ -45,14 +45,14 @@
           result = scope.gPlace.getPlace();
           if (result !== undefined) {
             if (result.address_components !== undefined) {
-              scope.$apply(function() {
+              return scope.$apply(function() {
                 scope.details = result;
-                controller.$setViewValue(element.val());
+                return controller.$setViewValue(element.val());
               });
             } else {
               if (watchEnter) {
                 getPlace(result);
-                element[0].blur();
+                return element[0].blur();
               }
             }
           }
@@ -61,29 +61,29 @@
           var autocompleteService, listentoresult;
           autocompleteService = new google.maps.places.AutocompleteService();
           if (result.name.length > 0) {
-            autocompleteService.getPlacePredictions({
+            return autocompleteService.getPlacePredictions({
               input: result.name,
               offset: result.name.length
             }, listentoresult = function(list, status) {
               var detailsresult, placesService;
               if ((list == null) || list.length === 0) {
-                scope.$apply(function() {
-                  scope.details = null;
+                return scope.$apply(function() {
+                  return scope.details = null;
                 });
               } else {
                 placesService = new google.maps.places.PlacesService(element[0]);
-                placesService.getDetails({
+                return placesService.getDetails({
                   reference: list[0].reference
                 }, detailsresult = function(detailsResult, placesServiceStatus) {
                   if (placesServiceStatus === google.maps.GeocoderStatus.OK) {
-                    scope.$apply(function() {
+                    return scope.$apply(function() {
                       var watchFocusOut;
                       controller.$setViewValue(detailsResult.formatted_address);
                       element.val(detailsResult.formatted_address);
                       scope.details = detailsResult;
-                      watchFocusOut = element.on("blur", function(event) {
+                      return watchFocusOut = element.on("blur", function(event) {
                         element.val(detailsResult.formatted_address);
-                        element.unbind("blur");
+                        return element.unbind("blur");
                       });
                     });
                   }
@@ -95,12 +95,12 @@
         controller.$render = function() {
           var location;
           location = controller.$viewValue;
-          element.val(location);
+          return element.val(location);
         };
         scope.watchOptions = function() {
           return scope.options;
         };
-        scope.$watch(scope.watchOptions, (function() {
+        return scope.$watch(scope.watchOptions, (function() {
           if (scope.options) {
             watchEnter = scope.options.watchEnter;
             if (scope.options.types) {
@@ -114,11 +114,11 @@
               scope.gPlace.setBounds(null);
             }
             if (scope.options.country) {
-              scope.gPlace.setComponentRestrictions({
+              return scope.gPlace.setComponentRestrictions({
                 country: scope.options.country
               });
             } else {
-              scope.gPlace.setComponentRestrictions(null);
+              return scope.gPlace.setComponentRestrictions(null);
             }
           }
         }), true);
