@@ -125,7 +125,7 @@
               scope.gPlace.setComponentRestrictions(null);
             }
           }
-          console.log(preventSubmit);
+
           if (preventSubmit) {
             return element.on('keydown', function(event) {
               var el, pacContainerElements, _i, _len, _results;
