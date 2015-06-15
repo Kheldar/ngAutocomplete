@@ -108,7 +108,6 @@ angular.module("ngAutocomplete", []).directive "ngAutocomplete", ->
         else
           scope.gPlace.setComponentRestrictions null
 
-      console.log preventSubmit
       if preventSubmit
         element.on 'keydown', (event) ->
           if event.which is 13
